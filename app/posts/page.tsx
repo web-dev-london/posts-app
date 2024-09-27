@@ -1,6 +1,7 @@
 import StatusBadge from '@/components/StatusBadge';
 import prisma from '@/prisma/client';
-import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Link } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import delay from 'delay';
 import PostAction from './PostAction';
 
@@ -40,7 +41,13 @@ const PostsView = async () => {
               <Tr key={post.id}>
                 <Td
                 >
-                  {post.title}
+                  <Link
+                    as={NextLink}
+                    href={`/posts/${post.id}`}
+                    _hover={{ textDecoration: 'none' }}
+                  >
+                    {post.title}
+                  </Link>
                   <Box
                     display={{ base: 'block', md: 'none' }}
                     mt={3}
