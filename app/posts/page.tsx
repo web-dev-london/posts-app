@@ -44,7 +44,6 @@ const PostsView = async () => {
                   <Link
                     as={NextLink}
                     href={`/posts/${post.id}`}
-                    _hover={{ textDecoration: 'none' }}
                   >
                     {post.title}
                   </Link>
