@@ -1,7 +1,6 @@
 import prisma from '@/prisma/client'
 import { Text } from '@chakra-ui/react'
 import { notFound } from 'next/navigation'
-import React from 'react'
 
 interface PostDetailPageProps {
   params: {
@@ -9,15 +8,21 @@ interface PostDetailPageProps {
   }
 }
 
-const PostDetailPage = async ({ params }: PostDetailPageProps) => {
+const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
+  const postIdNumber = parseInt(id, 10)
+
+  if (isNaN(postIdNumber)) {
+    return notFound()
+  }
   const postId = await prisma.post.findUnique({
     where: {
-      id: parseInt(params.id)
+      id: parseInt(id)
     }
   })
 
-  if (!postId)
-    notFound()
+  if (!postId) {
+    return notFound()
+  }
 
   return (
     <>
