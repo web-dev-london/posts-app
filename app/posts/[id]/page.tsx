@@ -1,5 +1,6 @@
+import StatusBadge from '@/components/StatusBadge'
 import prisma from '@/prisma/client'
-import { Text } from '@chakra-ui/react'
+import { Card, Flex, Heading, Text } from '@chakra-ui/react'
 import { notFound } from 'next/navigation'
 
 interface PostDetailPageProps {
@@ -26,10 +27,17 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
 
   return (
     <>
-      <Text>{postId.title}</Text>
-      <Text>{postId.description}</Text>
-      <Text>{postId.status}</Text>
-      <Text>{postId.createdAt.toDateString()}</Text>
+      <Heading>{postId.title}</Heading>
+      <Flex
+        gap={5}
+        my={2}
+      >
+        <StatusBadge status={postId.status} />
+        <Text>{postId.createdAt.toDateString()}</Text>
+      </Flex>
+      <Card>
+        {postId.description}
+      </Card>
     </>
   )
 }
