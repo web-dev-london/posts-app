@@ -24,7 +24,10 @@ export default function RootLayout({
       >
         <Providers>
           <NavBar />
-          <main>
+          <main
+            className="p-5"
+            style={{ minHeight: "calc(100vh - 64px)" }}
+          >
             {children}
           </main>
         </Providers>
