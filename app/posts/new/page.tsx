@@ -21,6 +21,20 @@ const NewPostView = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<PostForm>({
     resolver: zodResolver(postSchema),
   })
+
+  const handleFormSubmit = handleSubmit(async (data) => {
+    try {
+      setIsSubmitting(true)
+      await axios.post('/api/posts', data)
+      push('/posts')
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message)
+        setIsSubmitting(false)
+      }
+    }
+  })
+
   return (
     <>
       <Box
@@ -37,18 +51,7 @@ const NewPostView = () => {
             <AlertDescription>Something went wrong...</AlertDescription>
           </Alert>)}
         <form
-          onSubmit={handleSubmit(async (data) => {
-            try {
-              setIsSubmitting(true)
-              await axios.post('/api/posts', data)
-              push('/posts')
-            } catch (error) {
-              if (error instanceof Error) {
-                setError(error.message)
-                setIsSubmitting(false)
-              }
-            }
-          })}
+          onSubmit={handleFormSubmit}
         >
           <FormControl
             isInvalid={!!errors.title || !!errors.description}>
