@@ -1,10 +1,21 @@
+import { Button, Link } from '@chakra-ui/react';
+import NextLink from 'next/link'
 import React from 'react'
 
 const PostsView = () => {
   return (
-    <div>
-      <h1>Posts Page</h1>
-    </div>
+    <>
+      <Button
+        colorScheme='yellow'
+      >
+        <Link
+          _hover={{ textDecoration: 'none' }}
+          as={NextLink} href='/posts/new'
+        >
+          New Post
+        </Link>
+      </Button>
+    </>
   )
 }
 
