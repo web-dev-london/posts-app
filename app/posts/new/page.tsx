@@ -1,13 +1,13 @@
 'use client'
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Textarea } from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
+import ErrorMessage from '@/components/ErrorMessage'
+import postSchema from '@/schema/postSchema'
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, FormControl, FormLabel, Input, Spinner, Textarea } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import postSchema from '@/schema/postSchema'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import ErrorMessage from '@/components/ErrorMessage'
 
 
 
@@ -16,6 +16,7 @@ type PostForm = z.infer<typeof postSchema>
 
 const NewPostView = () => {
   const { push } = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm<PostForm>({
     resolver: zodResolver(postSchema),
@@ -38,11 +39,13 @@ const NewPostView = () => {
         <form
           onSubmit={handleSubmit(async (data) => {
             try {
+              setIsSubmitting(true)
               await axios.post('/api/posts', data)
               push('/posts')
             } catch (error) {
               if (error instanceof Error) {
                 setError(error.message)
+                setIsSubmitting(false)
               }
             }
           })}
@@ -86,8 +89,13 @@ const NewPostView = () => {
               right={0}
               bottom={'-15%'}
               transform={'translate(0, 15%)'}
+              isDisabled={isSubmitting}
             >
               Submit
+              {isSubmitting && <Spinner
+                size={'sm'}
+                ml={3}
+              />}
             </Button>
           </FormControl>
         </form>
