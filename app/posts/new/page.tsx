@@ -7,6 +7,7 @@ import { useState } from 'react'
 import postSchema from '@/schema/postSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import ErrorMessage from '@/components/ErrorMessage'
 
 
 
@@ -61,11 +62,9 @@ const NewPostView = () => {
               placeholder='Title'
               {...register('title')}
             />
-            {errors.title ? (
-              <FormErrorMessage mt={0}>{errors.title.message}</FormErrorMessage>
-            ) : (
-              <FormHelperText mt={0}>Enter the title.</FormHelperText>
-            )}
+            <ErrorMessage>
+              {errors.title?.message}
+            </ErrorMessage>
             <FormLabel
               mt={5}
             >Description
@@ -77,16 +76,16 @@ const NewPostView = () => {
               {...register('description')}
               mb={2}
             />
-            {errors.description ? (
-              <FormErrorMessage mt={0} mb={5}>{errors.description.message}</FormErrorMessage>
-            ) : (
-              <FormHelperText mt={0} mb={5}>Enter the description.</FormHelperText>
-            )}
+            <ErrorMessage>
+              {errors.description?.message}
+            </ErrorMessage>
             <Button
               type="submit"
               colorScheme='yellow'
               position={'absolute'}
               right={0}
+              bottom={'-15%'}
+              transform={'translate(0, 15%)'}
             >
               Submit
             </Button>
