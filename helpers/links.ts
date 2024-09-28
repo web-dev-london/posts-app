@@ -5,6 +5,6 @@ export const links = [
   },
   {
     name: 'Posts',
-    href: '/posts'
+    href: '/posts/list'
   }
 ]

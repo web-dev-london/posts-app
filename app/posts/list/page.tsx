@@ -1,10 +1,22 @@
-import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
-import PostAction from './PostAction'
+import { StatusBadge } from '@/components';
+import prisma from '@/prisma/client';
+import {
+  Box,
+  Link,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr
+} from '@chakra-ui/react';
+import NextLink from 'next/link';
+import PostAction from './PostAction';
 
-const LoadingPostPage = () => {
-  const posts = [1, 2, 3, 4, 5, 6]
+const PostsView = async () => {
+  const posts = await prisma.post.findMany();
+
   return (
     <>
       <PostAction />
@@ -31,27 +43,32 @@ const LoadingPostPage = () => {
           </Thead>
           <Tbody>
             {posts.map((post) => (
-              <Tr key={post}>
+              <Tr key={post.id}>
                 <Td
                 >
-                  <Skeleton />
+                  <Link
+                    as={NextLink}
+                    href={`/posts/${post.id}`}
+                  >
+                    {post.title}
+                  </Link>
                   <Box
                     display={{ base: 'block', md: 'none' }}
                     mt={3}
                   >
-                    <Skeleton />
+                    <StatusBadge status={post.status} />
                   </Box>
                 </Td>
                 <Td
                   display={{ base: 'none', md: 'table-cell' }}
                 >
-                  <Skeleton />
+                  <StatusBadge status={post.status} />
                 </Td>
                 <Td
                   isNumeric
                   display={{ base: 'none', md: 'table-cell' }}
                 >
-                  <Skeleton />
+                  {post.createdAt.toDateString()}
                 </Td>
               </Tr>
             ))}
@@ -62,4 +79,4 @@ const LoadingPostPage = () => {
   )
 }
 
-export default LoadingPostPage
+export default PostsView

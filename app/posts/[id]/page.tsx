@@ -1,6 +1,12 @@
-import StatusBadge from '@/components/StatusBadge'
+import { StatusBadge } from '@/components'
 import prisma from '@/prisma/client'
-import { Card, CardBody, Flex, Heading, Text } from '@chakra-ui/react'
+import {
+  Card,
+  CardBody,
+  Flex,
+  Heading,
+  Text
+} from '@chakra-ui/react'
 import { notFound } from 'next/navigation'
 
 interface PostDetailPageProps {

@@ -1,20 +1,21 @@
-import StatusBadge from '@/components/StatusBadge';
-import prisma from '@/prisma/client';
-import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Link } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import delay from 'delay';
-import PostAction from './PostAction';
+import {
+  Box,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr
+} from '@chakra-ui/react'
+import { Skeleton } from '@/components'
+import PostAction from './PostAction'
 
-const PostsView = async () => {
-  const posts = await prisma.post.findMany();
-
-  await delay(2000)
-
+const LoadingPostPage = () => {
+  const posts = [1, 2, 3, 4, 5, 6]
   return (
     <>
       <PostAction />
-
-
       <TableContainer
         borderRadius={'10px'}
         my={5}
@@ -38,32 +39,27 @@ const PostsView = async () => {
           </Thead>
           <Tbody>
             {posts.map((post) => (
-              <Tr key={post.id}>
+              <Tr key={post}>
                 <Td
                 >
-                  <Link
-                    as={NextLink}
-                    href={`/posts/${post.id}`}
-                  >
-                    {post.title}
-                  </Link>
+                  <Skeleton />
                   <Box
                     display={{ base: 'block', md: 'none' }}
                     mt={3}
                   >
-                    <StatusBadge status={post.status} />
+                    <Skeleton />
                   </Box>
                 </Td>
                 <Td
                   display={{ base: 'none', md: 'table-cell' }}
                 >
-                  <StatusBadge status={post.status} />
+                  <Skeleton />
                 </Td>
                 <Td
                   isNumeric
                   display={{ base: 'none', md: 'table-cell' }}
                 >
-                  {post.createdAt.toDateString()}
+                  <Skeleton />
                 </Td>
               </Tr>
             ))}
@@ -74,4 +70,4 @@ const PostsView = async () => {
   )
 }
 
-export default PostsView
+export default LoadingPostPage
