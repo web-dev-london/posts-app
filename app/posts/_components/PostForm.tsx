@@ -26,7 +26,10 @@ const PostForm = ({ post }: { post?: Post }) => {
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true)
-      await axios.post('/api/posts', data)
+      if (post)
+        await axios.patch(`/api/posts/${post.id}`, data)
+      else
+        await axios.post('/api/posts', data)
       push('/posts/list');
       refresh();
     } catch (error) {
@@ -98,7 +101,7 @@ const PostForm = ({ post }: { post?: Post }) => {
               transform={'translate(0, 15%)'}
               isDisabled={isSubmitting}
             >
-              Submit
+              {post ? 'Update' : 'Create'}{' '}
               {isSubmitting && <Spinner
                 size={'sm'}
                 ml={3}
