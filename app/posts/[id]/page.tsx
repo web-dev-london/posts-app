@@ -1,18 +1,11 @@
-import { StatusBadge } from '@/components';
 import prisma from '@/prisma/client';
 import {
   Box,
-  Button,
-  Card,
-  CardBody,
-  Flex,
-  Grid,
-  Heading,
-  Text
+  Grid
 } from '@chakra-ui/react';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { BsPencilSquare } from "react-icons/bs";
+import EditPostButton from './EditPostButton';
+import PostDetails from './PostDetails';
 
 interface PostDetailPageProps {
   params: {
@@ -26,13 +19,13 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
   if (isNaN(postIdNumber)) {
     return notFound()
   }
-  const postId = await prisma.post.findUnique({
+  const post = await prisma.post.findUnique({
     where: {
       id: parseInt(id)
     }
   })
 
-  if (!postId) {
+  if (!post) {
     return notFound()
   }
 
@@ -43,36 +36,14 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
         gap={{ base: 2, md: 8 }}
       >
         <Box>
-          <Heading>{postId.title}</Heading>
-          <Flex
-            gap={5}
-            my={2}
-          >
-            <StatusBadge status={postId.status} />
-            <Text>{postId.createdAt.toDateString()}</Text>
-          </Flex>
-          <Card
-            maxW={'md'}
-            my={5}
-          >
-            <CardBody>
-              {postId.description}
-            </CardBody>
-          </Card>
+          <PostDetails
+            post={post}
+          />
         </Box>
         <Box>
-          <Button
-            colorScheme='yellow'
-            display={'flex'}
-            gap={2}
-          >
-            <BsPencilSquare />
-            <Link
-              href={`/posts/${id}/edit`}
-            >
-              Edit Post
-            </Link>
-          </Button>
+          <EditPostButton
+            id={post.id}
+          />
         </Box>
       </Grid>
     </>
