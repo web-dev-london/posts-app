@@ -3,6 +3,7 @@ import ErrorMessage from '@/components/ErrorMessage'
 import postSchema from '@/schema/postSchema'
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, FormControl, FormLabel, Input, Spinner, Textarea } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Post } from '@prisma/client'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -12,13 +13,13 @@ import { z } from 'zod'
 
 
 
-type PostForm = z.infer<typeof postSchema>
+type PostFormData = z.infer<typeof postSchema>
 
-const PostForm = () => {
+const PostForm = ({ post }: { post?: Post }) => {
   const { push, refresh } = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('');
-  const { register, handleSubmit, formState: { errors } } = useForm<PostForm>({
+  const { register, handleSubmit, formState: { errors } } = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
   })
 
@@ -66,6 +67,7 @@ const PostForm = () => {
               mt={1}
               mb={2}
               type='text'
+              defaultValue={post?.title}
               placeholder='Title'
               {...register('title')}
             />
@@ -79,6 +81,7 @@ const PostForm = () => {
             <Textarea
               resize={'none'}
               rows={6}
+              defaultValue={post?.description}
               placeholder='Description'
               {...register('description')}
               mb={2}
