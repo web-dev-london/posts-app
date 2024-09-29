@@ -8,10 +8,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-
-
+import { z } from 'zod';
 
 type PostFormData = z.infer<typeof postSchema>
 

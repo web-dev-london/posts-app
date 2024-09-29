@@ -1,29 +1,35 @@
-import { Box, Card, CardBody, Flex } from '@chakra-ui/react'
-import { Skeleton } from '@/components'
+import { Card, Skeleton, SkeletonText, Stack } from '@chakra-ui/react'
+
 
 const LoadingPostDetailPage = () => {
   return (
     <>
-      <Box
+      <Stack
         maxW={'md'}
+        my={4}
       >
-        <Skeleton height={'2rem'} />
-        <Flex
-          gap={5}
-          my={2}
+        <Skeleton height={'2rem'} fadeDuration={2} borderRadius={'10px'} />
+        <Stack
         >
-          <Skeleton width={'4rem'} />
-          <Skeleton width={'7rem'} />
-        </Flex>
+          <SkeletonText
+            fadeDuration={2}
+            borderRadius={'2px'}
+            skeletonHeight={'10px'}
+            w={'50%'}
+            noOfLines={2}
+          />
+        </Stack>
         <Card
           maxW={'md'}
           my={5}
         >
-          <CardBody>
-            <Skeleton count={3} />
-          </CardBody>
+          <Skeleton
+            height={'5rem'}
+            fadeDuration={2}
+            borderRadius={'10px'}
+          />
         </Card>
-      </Box>
+      </Stack>
     </>
   )
 }

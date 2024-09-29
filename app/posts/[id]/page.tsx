@@ -1,11 +1,23 @@
 import prisma from '@/prisma/client';
 import {
   Box,
-  Grid
+  Flex,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import { notFound } from 'next/navigation';
 import EditPostButton from './EditPostButton';
-import PostDetails from './PostDetails';
+import dynamic from 'next/dynamic';
+import LoadingPostDetailPage from './loading';
+import DeletePostButton from './DeletePostButton';
+
+const PostDetails = dynamic(
+  () => import('./PostDetails'),
+  {
+    ssr: false,
+    loading: () => <LoadingPostDetailPage />
+  }
+)
 
 interface PostDetailPageProps {
   params: {
@@ -32,19 +44,33 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
   return (
     <>
       <Grid
-        templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+        templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }}
         gap={{ base: 2, md: 8 }}
       >
-        <Box>
-          <PostDetails
-            post={post}
-          />
-        </Box>
-        <Box>
-          <EditPostButton
-            id={post.id}
-          />
-        </Box>
+        <GridItem
+          colSpan={{ base: 1, md: 4 }}
+        >
+          <Box>
+            <PostDetails
+              post={post}
+            />
+          </Box>
+        </GridItem>
+        <GridItem>
+          <Box>
+            <Flex
+              flexDir={'column'}
+              gap={5}
+            >
+              <EditPostButton
+                id={post.id}
+              />
+              <DeletePostButton
+                id={post.id}
+              />
+            </Flex>
+          </Box>
+        </GridItem>
       </Grid>
     </>
   )

@@ -1,17 +1,3 @@
-import { Box } from '@chakra-ui/react';
-import { Skeleton } from '@/components';
+import PostFormSkeleton from "../_components/PostFormSkeleton";
 
-const LoadingNewPage = () => {
-  return (
-    <>
-      <Box
-        maxW={'md'}
-      >
-        <Skeleton height={'2rem'} />
-        <Skeleton height={'20rem'} />
-      </Box>
-    </>
-  );
-};
-
-export default LoadingNewPage;
+export default PostFormSkeleton;

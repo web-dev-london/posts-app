@@ -15,7 +15,7 @@ const PostDetails = ({ post }: { post: Post }) => {
         <Text>{post.createdAt.toDateString()}</Text>
       </Flex>
       <Card
-        maxW={'md'}
+        maxW={'full'}
         my={5}
       >
         <CardBody>

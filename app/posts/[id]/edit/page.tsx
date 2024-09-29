@@ -1,6 +1,16 @@
 import prisma from '@/prisma/client'
-import PostForm from '../../_components/PostForm'
 import { notFound } from 'next/navigation'
+import dynamic from 'next/dynamic';
+import PostFormSkeleton from './loading';
+
+
+const PostForm = dynamic(
+  () => import('@/app/posts/_components/PostForm'),
+  {
+    ssr: false,
+    loading: () => <PostFormSkeleton />,
+  }
+)
 
 
 interface EditPostPageProps {

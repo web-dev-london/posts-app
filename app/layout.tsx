@@ -5,6 +5,7 @@ import { fontSans, fontMono } from "./fonts/fonts";
 import "./globals.css";
 import NavBar from "./NavBar";
 import classNames from "classnames";
+import { Container } from "@chakra-ui/react";
 
 
 export const metadata: Metadata = {
@@ -28,7 +29,11 @@ export default function RootLayout({
             className="p-5"
             style={{ minHeight: "calc(100vh - 64px)" }}
           >
-            {children}
+            <Container
+              maxW="container.xl"
+            >
+              {children}
+            </Container>
           </main>
         </Providers>
       </body>

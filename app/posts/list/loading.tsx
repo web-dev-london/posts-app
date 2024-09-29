@@ -1,5 +1,6 @@
 import {
   Box,
+  SkeletonText,
   Table,
   TableContainer,
   Tbody,
@@ -8,14 +9,11 @@ import {
   Thead,
   Tr
 } from '@chakra-ui/react'
-import { Skeleton } from '@/components'
-import PostAction from './PostAction'
 
 const LoadingPostPage = () => {
-  const posts = [1, 2, 3, 4, 5, 6]
+  const posts = [1, 2, 3, 4, 5, 6, 7, 8]
   return (
     <>
-      <PostAction />
       <TableContainer
         borderRadius={'10px'}
         my={5}
@@ -42,24 +40,53 @@ const LoadingPostPage = () => {
               <Tr key={post}>
                 <Td
                 >
-                  <Skeleton />
+                  <SkeletonText
+                    fadeDuration={2}
+                    skeletonHeight={'22px'}
+                    noOfLines={1}
+                    borderRadius={'10px'}
+                    spacing={3}
+                    mt={1}
+                  />
                   <Box
                     display={{ base: 'block', md: 'none' }}
                     mt={3}
                   >
-                    <Skeleton />
+                    <SkeletonText
+                      fadeDuration={2}
+                      skeletonHeight={'22px'}
+                      noOfLines={1}
+                      borderRadius={'10px'}
+                      spacing={2}
+                      w={'50%'}
+                      mt={1}
+                    />
                   </Box>
                 </Td>
                 <Td
                   display={{ base: 'none', md: 'table-cell' }}
                 >
-                  <Skeleton />
+                  <SkeletonText
+                    fadeDuration={2}
+                    skeletonHeight={'22px'}
+                    noOfLines={1}
+                    borderRadius={'10px'}
+                    spacing={3}
+                    mt={1}
+                  />
                 </Td>
                 <Td
                   isNumeric
                   display={{ base: 'none', md: 'table-cell' }}
                 >
-                  <Skeleton />
+                  <SkeletonText
+                    fadeDuration={2}
+                    skeletonHeight={'22px'}
+                    noOfLines={1}
+                    borderRadius={'10px'}
+                    spacing={3}
+                    mt={1}
+                  />
                 </Td>
               </Tr>
             ))}
