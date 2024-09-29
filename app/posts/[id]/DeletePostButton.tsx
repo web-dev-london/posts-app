@@ -1,5 +1,7 @@
 'use client'
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from '@chakra-ui/react'
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 // import Link from 'next/link'
 import React from 'react'
 import { FaDeleteLeft } from "react-icons/fa6";
@@ -7,6 +9,7 @@ import { FaDeleteLeft } from "react-icons/fa6";
 const DeletePostButton = ({ id }: { id: number }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef<HTMLButtonElement>(null)
+  const { push, refresh } = useRouter();
   return (
     <>
       <Button
@@ -37,7 +40,12 @@ const DeletePostButton = ({ id }: { id: number }) => {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme='red' onClick={onClose} ml={3}>
+              <Button colorScheme='red' onClick={async () => {
+                onClose()
+                await axios.delete(`/api/posts/${id}`)
+                push('/posts/list')
+                refresh()
+              }} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>
