@@ -29,4 +29,25 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   })
 
   return NextResponse.json(updatedPost, { status: 200 });
+};
+
+
+
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: parseInt(params.id)
+    }
+  })
+  if (!post) {
+    return NextResponse.json({ error: "Post not found" }, { status: 404 });
+  }
+
+  await prisma.post.delete({
+    where: {
+      id: parseInt(params.id)
+    }
+  })
+
+  return NextResponse.json({ message: "Post deleted successfully" }, { status: 200 });
 }
