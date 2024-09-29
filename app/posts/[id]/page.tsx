@@ -10,6 +10,7 @@ import EditPostButton from './EditPostButton';
 import dynamic from 'next/dynamic';
 import LoadingPostDetailPage from './loading';
 import DeletePostButton from './DeletePostButton';
+import React from 'react';
 
 const PostDetails = dynamic(
   () => import('./PostDetails'),
