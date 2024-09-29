@@ -1,5 +1,4 @@
 import { Button, Link } from '@chakra-ui/react'
-import React from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 
 const EditPostButton = ({ id }: { id: number }) => {

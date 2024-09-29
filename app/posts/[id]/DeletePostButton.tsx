@@ -2,12 +2,13 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Spinner, useDisclosure } from '@chakra-ui/react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import { useState, useRef } from 'react'
 import { FaDeleteLeft } from "react-icons/fa6";
+
 
 const DeletePostButton = ({ id }: { id: number }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = React.useRef<HTMLButtonElement>(null)
+  const cancelRef = useRef<HTMLButtonElement>(null)
   const { push, refresh } = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [isError, setIsError] = useState(false);
