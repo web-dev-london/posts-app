@@ -1,5 +1,5 @@
 'use client'
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Spinner, useDisclosure } from '@chakra-ui/react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -9,15 +9,18 @@ const DeletePostButton = ({ id }: { id: number }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef<HTMLButtonElement>(null)
   const { push, refresh } = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const handleDeleteClick = async () => {
     try {
+      setIsDeleting(true)
       await axios.delete(`/api/posts/${id}`)
       push('/posts/list')
       refresh()
     } catch (error) {
       if (error instanceof Error) {
+        setIsDeleting(false)
         setIsError(true)
       }
     }
@@ -30,9 +33,11 @@ const DeletePostButton = ({ id }: { id: number }) => {
         display={'flex'}
         gap={2}
         onClick={onOpen}
+        isDisabled={isDeleting}
       >
         <FaDeleteLeft />
         Delete Post
+        {isDeleting && <Spinner size='sm' />}
       </Button>
       <AlertDialog
         isOpen={isOpen}

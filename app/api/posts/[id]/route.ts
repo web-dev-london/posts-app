@@ -2,6 +2,7 @@ import prisma from "@/prisma/client";
 import postSchema from "@/schema/postSchema";
 import { NextResponse, NextRequest } from "next/server";
 
+
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   const body = await request.json();
   const validation = postSchema.safeParse(body);
