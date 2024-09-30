@@ -1,5 +1,5 @@
 'use client'
-import { Box, HStack, ListItem, UnorderedList } from '@chakra-ui/react'
+import { Box, Container, HStack, ListItem, UnorderedList } from '@chakra-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
@@ -35,40 +35,49 @@ const NavBar = () => {
 
   return (
     <>
-      <HStack
-        spacing={8}
-        borderBottom={'1px'}
-        borderBottomColor={'gray.200'}
-        px={5}
-        h={'60px'}
+      <Container
+        maxW="container.xl"
+        px={6}
       >
-        <Link href="/">
-          <MdOutlineLocalPostOffice size={30} />
-        </Link>
-        <UnorderedList
-          listStyleType="none"
-          ml={0}
-          display={'flex'}
-          gap={5}
+        <HStack
+          justifyContent={'space-between'}
+          borderBottom={'1px'}
+          borderBottomColor={'gray.200'}
         >
-          {listItems}
-        </UnorderedList>
-        <Box>
-          {status === 'authenticated' ? (
-            <Link
-              href="/api/auth/signout"
-            >
-              Sign out
+          <HStack
+            as={'nav'}
+            spacing={8}
+            h={'60px'}
+          >
+            <Link href="/">
+              <MdOutlineLocalPostOffice size={30} />
             </Link>
-          ) : (
-            <Link
-              href="/api/auth/signin"
+            <UnorderedList
+              listStyleType="none"
+              ml={0}
+              display={'flex'}
+              gap={5}
             >
-              Sign in
-            </Link>
-          )}
-        </Box>
-      </HStack>
+              {listItems}
+            </UnorderedList>
+          </HStack>
+          <Box>
+            {status === 'authenticated' ? (
+              <Link
+                href="/api/auth/signout"
+              >
+                Sign out
+              </Link>
+            ) : (
+              <Link
+                href="/api/auth/signin"
+              >
+                Sign in
+              </Link>
+            )}
+          </Box>
+        </HStack>
+      </Container>
     </>
   )
 }
