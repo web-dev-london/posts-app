@@ -1,6 +1,7 @@
 import { StatusBadge } from '@/components'
 import { Card, CardBody, Flex, Heading, Text } from '@chakra-ui/react'
 import { Post } from '@prisma/client'
+import React from 'react'
 
 
 const PostDetails = ({ post }: { post: Post }) => {

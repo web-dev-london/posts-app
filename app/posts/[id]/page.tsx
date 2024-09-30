@@ -10,6 +10,8 @@ import EditPostButton from './EditPostButton';
 import dynamic from 'next/dynamic';
 import LoadingPostDetailPage from './loading';
 import DeletePostButton from './DeletePostButton';
+import React from 'react';
+import { Metadata } from 'next';
 
 const PostDetails = dynamic(
   () => import('./PostDetails'),
@@ -75,5 +77,10 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
     </>
   )
 }
+
+export const metadata: Metadata = {
+  title: 'Posts App - Post Details',
+  description: 'View Post Details',
+};
 
 export default PostDetailPage

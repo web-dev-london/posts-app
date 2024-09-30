@@ -2,6 +2,8 @@ import prisma from '@/prisma/client'
 import { notFound } from 'next/navigation'
 import dynamic from 'next/dynamic';
 import PostFormSkeleton from './loading';
+import React from 'react';
+import { Metadata } from 'next';
 
 
 const PostForm = dynamic(
@@ -37,6 +39,11 @@ const EditPostPage = async ({ params: { id } }: EditPostPageProps) => {
     </>
   )
 }
+
+export const metadata: Metadata = {
+  title: 'Posts App - Edit Post',
+  description: 'Edit Post',
+};
 
 export default EditPostPage;
 

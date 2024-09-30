@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+import React from "react";
 
 export default function Home() {
   return (
@@ -6,3 +8,8 @@ export default function Home() {
     </>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Posts App - Dashboard',
+  description: 'View Dashboard',
+};

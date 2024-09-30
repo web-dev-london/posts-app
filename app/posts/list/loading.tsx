@@ -9,6 +9,7 @@ import {
   Thead,
   Tr
 } from '@chakra-ui/react'
+import React from 'react'
 
 const LoadingPostPage = () => {
   const posts = [1, 2, 3, 4, 5, 6, 7, 8]

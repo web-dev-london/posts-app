@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import PostAction from './PostAction';
 import dynamic from 'next/dynamic';
 import LoadingPostPage from './loading';
+import React from 'react';
 
 
 const PostsTable = dynamic(
