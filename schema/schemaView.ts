@@ -2,8 +2,14 @@ import { z } from 'zod';
 // Define Zod Schema for Validation
 const postSchema = z.object({
   title: z.string().min(1, { message: 'Title is required and must be at least 1 character' }),
-  description: z.string().min(5, { message: 'Description must be at least 5 characters' }),
+  description: z.string().min(5, { message: 'Description must be at least 5 characters' }).max(65535),
 });
+
+const patchPostSchema = z.object({
+  title: z.string().min(1, { message: 'Title is required and must be at least 1 character' }).optional(),
+  description: z.string().min(5, { message: 'Description must be at least 5 characters' }).max(65535).optional(),
+  assignedToUserId: z.string().min(1, { message: 'AssignedToUserId is required' }).max(255).optional().nullable(),
+})
 
 
 const userSchema = z.object({
@@ -22,5 +28,5 @@ type Users = z.infer<typeof usersSchema>;
 
 export type { Users };
 
-export { postSchema, userSchema, usersSchema };
+export { postSchema, userSchema, usersSchema, patchPostSchema };
 

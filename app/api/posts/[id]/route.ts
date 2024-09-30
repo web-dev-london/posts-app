@@ -1,6 +1,6 @@
 import authOptions from "@/app/auth/authOptions";
 import prisma from "@/prisma/client";
-import postSchema from "@/schema/schemaView";
+import { patchPostSchema } from "@/schema/schemaView";
 import { getServerSession } from "next-auth";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -13,9 +13,22 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 
   const body = await request.json();
-  const validation = postSchema.safeParse(body);
+  const validation = patchPostSchema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json({ error: validation.error.format() }, { status: 400 });
+  }
+
+  const { assignedToUserId, title, description } = body
+  if (assignedToUserId) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: assignedToUserId
+      }
+    })
+
+    if (!user) {
+      return NextResponse.json({ error: "Assignee not found" }, { status: 400 });
+    }
   }
 
   const post = await prisma.post.findUnique({
@@ -23,6 +36,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       id: parseInt(params.id)
     }
   })
+
   if (!post) {
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
@@ -32,8 +46,9 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       id: parseInt(params.id)
     },
     data: {
-      title: body.title,
-      description: body.description
+      title,
+      description,
+      assignedToUserId,
     }
   })
 
