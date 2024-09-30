@@ -1,6 +1,5 @@
 'use client'
 import { Select } from '@chakra-ui/react'
-// import { User } from '@prisma/client';
 import React, { useEffect, useState } from 'react'
 import { Users, usersSchema } from '@/schema/schemaView'
 
@@ -25,7 +24,6 @@ const AssigneeSelect = () => {
     fetchUsers();
   }, []);
 
-  console.log('Users list:', users);
 
   return (
     <div>
