@@ -1,5 +1,5 @@
 'use client'
-import { Box, Container, HStack, ListItem, UnorderedList } from '@chakra-ui/react'
+import { Avatar, Box, Container, HStack, ListItem, Menu, MenuButton, MenuItem, MenuList, UnorderedList } from '@chakra-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
@@ -63,11 +63,28 @@ const NavBar = () => {
           </HStack>
           <Box>
             {status === 'authenticated' ? (
-              <Link
-                href="/api/auth/signout"
-              >
-                Sign out
-              </Link>
+              <Menu>
+                <MenuButton
+                  cursor={'pointer'}
+                >
+                  <Avatar
+                    name={session!.user!.name!}
+                    src={session!.user!.image!}
+                    size={'sm'}
+                  />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>
+                    {session!.user!.email}
+                  </MenuItem>
+                  <MenuItem
+                    as={Link}
+                    href="/api/auth/signout"
+                  >
+                    Sign out
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             ) : (
               <Link
                 href="/api/auth/signin"
