@@ -1,15 +1,19 @@
 'use client'
-import { HStack, ListItem, UnorderedList } from '@chakra-ui/react'
+import { Box, HStack, ListItem, UnorderedList } from '@chakra-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { MdOutlineLocalPostOffice } from 'react-icons/md'
 import { links } from '@/helpers/links'
+import { useSession } from 'next-auth/react'
 
 
 
 const NavBar = () => {
   const pathname = usePathname()
+  const { data: session, status } = useSession();
+
+
 
   const listItems = links.map((link) => {
     return (
@@ -49,6 +53,21 @@ const NavBar = () => {
         >
           {listItems}
         </UnorderedList>
+        <Box>
+          {status === 'authenticated' ? (
+            <Link
+              href="/api/auth/signout"
+            >
+              Sign out
+            </Link>
+          ) : (
+            <Link
+              href="/api/auth/signin"
+            >
+              Sign in
+            </Link>
+          )}
+        </Box>
       </HStack>
     </>
   )

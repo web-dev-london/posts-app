@@ -6,6 +6,7 @@ import "./globals.css";
 import NavBar from "./NavBar";
 import classNames from "classnames";
 import { Container } from "@chakra-ui/react";
+import AuthProvider from "./auth/Provider";
 
 
 export const metadata: Metadata = {
@@ -23,19 +24,21 @@ export default function RootLayout({
     <html lang="en" className={classNames(fontSans.variable, fontMono.variable)} >
       <body
       >
-        <Providers>
-          <NavBar />
-          <main
-            className="p-5"
-            style={{ minHeight: "calc(100vh - 64px)" }}
-          >
-            <Container
-              maxW="container.xl"
+        <AuthProvider>
+          <Providers>
+            <NavBar />
+            <main
+              className="p-5"
+              style={{ minHeight: "calc(100vh - 64px)" }}
             >
-              {children}
-            </Container>
-          </main>
-        </Providers>
+              <Container
+                maxW="container.xl"
+              >
+                {children}
+              </Container>
+            </main>
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );
