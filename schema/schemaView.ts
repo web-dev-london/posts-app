@@ -6,9 +6,22 @@ const postSchema = z.object({
 });
 
 const patchPostSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required and must be at least 1 character' }).optional(),
-  description: z.string().min(5, { message: 'Description must be at least 5 characters' }).max(65535).optional(),
-  assignedToUserId: z.string().min(1, { message: 'AssignedToUserId is required' }).max(255).optional().nullable(),
+  title: z
+    .string()
+    .min(1, "Title is required.")
+    .max(255)
+    .optional(),
+  description: z
+    .string()
+    .min(1, "Description is required.")
+    .max(65535)
+    .optional(),
+  assignedToUserId: z
+    .string()
+    .min(1, "AssignedToUserId is required.")
+    .max(255)
+    .optional()
+    .nullable(),
 })
 
 
@@ -28,5 +41,5 @@ type Users = z.infer<typeof usersSchema>;
 
 export type { Users };
 
-export { postSchema, userSchema, usersSchema, patchPostSchema };
+export { patchPostSchema, postSchema, userSchema, usersSchema };
 

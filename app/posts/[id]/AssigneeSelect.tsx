@@ -1,9 +1,11 @@
 'use client'
 import { Users, usersSchema } from '@/schema/schemaView';
 import { Select, Skeleton } from '@chakra-ui/react';
+import { Post } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
-const AssigneeSelect = () => {
+const AssigneeSelect = ({ post }: { post: Post }) => {
   const { data: users, isLoading, error } = useQuery<Users>({
     queryKey: ['users'],
     queryFn: async () => {
@@ -29,9 +31,24 @@ const AssigneeSelect = () => {
 
   if (error) return null;
 
+  const handleSelectChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    try {
+      await axios.patch(`/api/posts/${post.id}`, {
+        assignedToUserId: event.target.value || null
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div>
-      <Select placeholder='Select option'>
+      <Select
+        onChange={handleSelectChange}
+        defaultValue={post.assignedToUserId || ''}
+        placeholder='Select option'
+      >
+        <option value={''}>Unassigned</option>
         {users?.map((user) => (
           <option key={user.id} value={user.id}>
             {user.name}

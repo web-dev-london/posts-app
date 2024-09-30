@@ -69,7 +69,9 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
                 flexDir={'column'}
                 gap={5}
               >
-                <AssigneeSelect />
+                <AssigneeSelect
+                  post={post}
+                />
                 <EditPostButton
                   id={post.id}
                 />
