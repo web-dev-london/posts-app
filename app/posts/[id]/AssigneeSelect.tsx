@@ -1,11 +1,12 @@
 'use client'
 import { Users, usersSchema } from '@/schema/schemaView';
-import { Select, Skeleton } from '@chakra-ui/react';
+import { Select, Skeleton, useToast } from '@chakra-ui/react';
 import { Post } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const AssigneeSelect = ({ post }: { post: Post }) => {
+  const toast = useToast()
   const { data: users, isLoading, error } = useQuery<Users>({
     queryKey: ['users'],
     queryFn: async () => {
@@ -37,8 +38,18 @@ const AssigneeSelect = ({ post }: { post: Post }) => {
         assignedToUserId: event.target.value || null
       })
     } catch (error) {
-      console.log(error)
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: `${error.message} Something went wrong`,
+          position: 'top',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
     }
+
   }
 
   return (
