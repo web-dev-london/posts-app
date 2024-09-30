@@ -1,34 +1,38 @@
 'use client'
-import { Select } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import { Users, usersSchema } from '@/schema/schemaView'
+import { Users, usersSchema } from '@/schema/schemaView';
+import { Select, Skeleton } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 
 const AssigneeSelect = () => {
-  const [users, setUsers] = useState<Users>([]);
+  const { data: users, isLoading, error } = useQuery<Users>({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await fetch('/api/users')
+      const data: unknown = await response.json()
+      const validated = usersSchema.safeParse(data)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('/api/users');
-        const data: unknown = await response.json();
-        const validation = usersSchema.safeParse(data);
-        if (!validation.success) {
-          console.error('Error parsing users:', validation.error.format());
-          return;
-        }
-        setUsers(validation.data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
+      if (!validated.success) {
+        throw new Error('Invalid data')
       }
-    };
-    fetchUsers();
-  }, []);
 
+      return validated.data
+    },
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    retry: 3,
+  })
+
+  if (isLoading) return <Skeleton
+    height={'2.3rem'}
+    borderRadius={'4px'}
+    w={'100%'}
+  />
+
+  if (error) return null;
 
   return (
     <div>
       <Select placeholder='Select option'>
-        {users.map((user) => (
+        {users?.map((user) => (
           <option key={user.id} value={user.id}>
             {user.name}
           </option>
