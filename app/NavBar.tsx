@@ -71,6 +71,7 @@ const NavBar = () => {
                     name={session!.user!.name!}
                     src={session!.user!.image!}
                     size={'sm'}
+                  // referrerPolicy='no-referrer'
                   />
                 </MenuButton>
                 <MenuList>
