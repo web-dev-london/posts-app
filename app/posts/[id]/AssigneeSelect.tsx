@@ -1,14 +1,40 @@
 'use client'
 import { Select } from '@chakra-ui/react'
-import React from 'react'
+// import { User } from '@prisma/client';
+import React, { useEffect, useState } from 'react'
+import { Users, usersSchema } from '@/schema/schemaView'
 
 const AssigneeSelect = () => {
+  const [users, setUsers] = useState<Users>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/users');
+        const data: unknown = await response.json();
+        const validation = usersSchema.safeParse(data);
+        if (!validation.success) {
+          console.error('Error parsing users:', validation.error.format());
+          return;
+        }
+        setUsers(validation.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  console.log('Users list:', users);
+
   return (
     <div>
       <Select placeholder='Select option'>
-        <option value='option1'>Option 1</option>
-        <option value='option2'>Option 2</option>
-        <option value='option3'>Option 3</option>
+        {users.map((user) => (
+          <option key={user.id} value={user.id}>
+            {user.name}
+          </option>
+        ))}
       </Select>
     </div>
   )

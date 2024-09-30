@@ -1,6 +1,6 @@
 'use client'
 import ErrorMessage from '@/components/ErrorMessage'
-import postSchema from '@/schema/postSchema'
+import { postSchema } from '@/schema/schemaView'
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, FormControl, FormLabel, Input, Spinner, Textarea } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Post } from '@prisma/client'
