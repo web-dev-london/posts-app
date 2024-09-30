@@ -1,5 +1,5 @@
 'use client'
-import { Box, Menu, MenuButton, Avatar, MenuList, MenuItem, Link } from '@chakra-ui/react'
+import { Avatar, Box, Link, Menu, MenuButton, MenuItem, MenuList, Skeleton } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import NextLink from 'next/link'
 import React from 'react'
@@ -7,7 +7,17 @@ import React from 'react'
 const AuthStatus = () => {
   const { data: session, status } = useSession();
 
-  if (status === 'loading') return null;
+  if (status === 'loading') {
+    return (
+      <>
+        <Skeleton
+          height={'1.2rem'}
+          width={'4rem'}
+          borderRadius={'4px'}
+        />
+      </>
+    )
+  }
 
   if (status === 'unauthenticated') {
     return (
