@@ -12,6 +12,8 @@ import LoadingPostDetailPage from './loading';
 import DeletePostButton from './DeletePostButton';
 import React from 'react';
 import { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
+import authOptions from '@/app/auth/authOptions';
 
 const PostDetails = dynamic(
   () => import('./PostDetails'),
@@ -28,6 +30,7 @@ interface PostDetailPageProps {
 }
 
 const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
+  const session = await getServerSession(authOptions)
   const postIdNumber = parseInt(id, 10)
 
   if (isNaN(postIdNumber)) {
@@ -59,19 +62,21 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
           </Box>
         </GridItem>
         <GridItem>
-          <Box>
-            <Flex
-              flexDir={'column'}
-              gap={5}
-            >
-              <EditPostButton
-                id={post.id}
-              />
-              <DeletePostButton
-                id={post.id}
-              />
-            </Flex>
-          </Box>
+          {session && (
+            <Box>
+              <Flex
+                flexDir={'column'}
+                gap={5}
+              >
+                <EditPostButton
+                  id={post.id}
+                />
+                <DeletePostButton
+                  id={post.id}
+                />
+              </Flex>
+            </Box>
+          )}
         </GridItem>
       </Grid>
     </>
