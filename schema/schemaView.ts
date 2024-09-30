@@ -37,9 +37,9 @@ const userSchema = z.object({
 });
 
 const usersSchema = z.array(userSchema);
-type Users = z.infer<typeof usersSchema>;
+export type Users = z.infer<typeof usersSchema>;
 
-export type { Users };
+
 
 export { patchPostSchema, postSchema, userSchema, usersSchema };
 

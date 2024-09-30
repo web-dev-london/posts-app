@@ -1293,6 +1293,11 @@
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.9.tgz"
   integrity sha512-w9iWudx1XWOHW5lQRS9iKpK/XuRhnN+0T7HvdCCd802FYkT1AMTnxndJHGrNJwRoRHkslGr4S29tjm1cT7x/7w==
 
+"@types/ms@^0.7.34":
+  version "0.7.34"
+  resolved "https://registry.npmjs.org/@types/ms/-/ms-0.7.34.tgz"
+  integrity sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==
+
 "@types/node@^20":
   version "20.16.9"
   resolved "https://registry.npmjs.org/@types/node/-/node-20.16.9.tgz"

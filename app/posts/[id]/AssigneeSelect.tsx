@@ -1,28 +1,12 @@
 'use client'
-import { Users, usersSchema } from '@/schema/schemaView';
+import useUsers from '@/hooks/useUsers';
 import { Select, Skeleton, useToast } from '@chakra-ui/react';
 import { Post } from '@prisma/client';
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const AssigneeSelect = ({ post }: { post: Post }) => {
   const toast = useToast()
-  const { data: users, isLoading, error } = useQuery<Users>({
-    queryKey: ['users'],
-    queryFn: async () => {
-      const response = await fetch('/api/users')
-      const data: unknown = await response.json()
-      const validated = usersSchema.safeParse(data)
-
-      if (!validated.success) {
-        throw new Error('Invalid data')
-      }
-
-      return validated.data
-    },
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
-    retry: 3,
-  })
+  const { data: users, isLoading, error } = useUsers()
 
   if (isLoading) return <Skeleton
     height={'2.3rem'}
