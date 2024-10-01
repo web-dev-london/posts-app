@@ -4,7 +4,8 @@ import PostAction from './PostAction';
 import dynamic from 'next/dynamic';
 import LoadingPostPage from './loading';
 import React from 'react';
-import { Status } from '@prisma/client';
+import { Post, Status } from '@prisma/client';
+import { columns } from '@/helpers/links';
 
 
 const PostsTable = dynamic(
@@ -17,22 +18,26 @@ const PostsTable = dynamic(
 
 interface PostStatus {
   searchParams: {
+    orderBy: keyof Post
     status: Status
   }
 }
 
 const PostsView = async ({ searchParams }: PostStatus) => {
   const statuses = Object.values(Status)
-  const status = statuses.includes(searchParams.status) ? searchParams.status : undefined
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined
+  const orderBy = columns.map(column => column.value).includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: 'asc' }
+    : undefined
 
   const posts = await prisma.post.findMany({
     where: {
       status,
     },
-    orderBy: {
-      createdAt: 'asc'
-    }
-  });
+    orderBy,
+  })
 
 
   return (

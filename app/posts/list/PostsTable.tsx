@@ -15,6 +15,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { Post, Status } from '@prisma/client'
 import NextLink from 'next/link'
 import React from 'react'
+import { columns } from '@/helpers/links'
 
 interface PostsTableProps {
   posts: Post[];
@@ -24,18 +25,7 @@ interface PostsTableProps {
   }
 }
 
-type Column = {
-  label: string;
-  value: keyof Post;
-}
 const PostsTable = ({ posts, searchParams }: PostsTableProps) => {
-
-
-  const columns: Column[] = [
-    { label: "Post", value: "title" },
-    { label: "Status", value: "status" },
-    { label: "Created", value: "createdAt" },
-  ]
 
 
   return (

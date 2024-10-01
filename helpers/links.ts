@@ -1,4 +1,4 @@
-import { PostStatus } from "@/types/types"
+import { Column, PostStatus } from "@/types/types"
 
 export const links = [
   {
@@ -17,3 +17,9 @@ export const statuses = [
   { label: 'In Progress', value: 'IN_PROGRESS' },
   { label: 'Closed', value: 'CLOSED' },
 ] satisfies PostStatus[]
+
+export const columns: Column[] = [
+  { label: "Post", value: "title" },
+  { label: "Status", value: "status" },
+  { label: "Created", value: "createdAt" },
+]
