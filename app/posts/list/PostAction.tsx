@@ -1,11 +1,16 @@
-import { Box, Button, Link } from '@chakra-ui/react'
+import { Button, Flex, Link } from '@chakra-ui/react'
 import NextLink from 'next/link'
+import PostStatusFilter from './PostStatusFilter'
 import React from 'react'
 
 const PostAction = () => {
   return (
     <>
-      <Box>
+      <Flex
+        my={5}
+        justifyContent={'space-between'}
+      >
+        <PostStatusFilter />
         <Button
           colorScheme='yellow'
         >
@@ -16,7 +21,7 @@ const PostAction = () => {
             New Post
           </Link>
         </Button>
-      </Box>
+      </Flex>
     </>
   )
 }
