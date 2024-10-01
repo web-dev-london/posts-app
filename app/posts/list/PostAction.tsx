@@ -9,6 +9,7 @@ const PostAction = () => {
       <Flex
         my={5}
         justifyContent={'space-between'}
+        gap={5}
       >
         <PostStatusFilter />
         <Button

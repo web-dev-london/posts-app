@@ -1,24 +1,43 @@
+'use client'
 import { StatusBadge } from '@/components'
 import {
-  TableContainer,
+  Box,
+  Link,
   Table,
-  Thead,
-  Tr,
-  Th,
+  TableContainer,
   Tbody,
   Td,
-  Box,
-  Link
+  Th,
+  Thead,
+  Tr
 } from '@chakra-ui/react'
-import { Post } from '@prisma/client'
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
+import { Post, Status } from '@prisma/client'
 import NextLink from 'next/link'
 import React from 'react'
 
 interface PostsTableProps {
-  posts: Post[]
+  posts: Post[];
+  searchParams: {
+    status: Status
+    orderBy?: keyof Post
+  }
 }
 
-const PostsTable = ({ posts }: PostsTableProps) => {
+type Column = {
+  label: string;
+  value: keyof Post;
+}
+const PostsTable = ({ posts, searchParams }: PostsTableProps) => {
+
+
+  const columns: Column[] = [
+    { label: "Post", value: "title" },
+    { label: "Status", value: "status" },
+    { label: "Created", value: "createdAt" },
+  ]
+
+
   return (
     <>
       <TableContainer
@@ -28,18 +47,40 @@ const PostsTable = ({ posts }: PostsTableProps) => {
         <Table variant='simple'>
           <Thead bg={'gray.100'}>
             <Tr>
-              <Th>Post</Th>
-              <Th
-                display={{ base: 'none', md: 'table-cell' }}
-              >
-                Status
-              </Th>
-              <Th
-                display={{ base: 'none', md: 'table-cell' }}
-                isNumeric
-              >
-                Created
-              </Th>
+              {columns.map((column, index) => (
+                <Th
+                  key={column.value}
+                  _notFirst={{
+                    display: { base: 'none', md: 'table-cell' },
+                  }}
+                  isNumeric={index === columns.length - 1}
+                >
+                  <NextLink
+                    href={{
+                      query: {
+                        ...searchParams,
+                        orderBy: column.value
+                      }
+                    }}
+                  >
+                    {column.label}
+                  </NextLink>
+                  {column.value === searchParams.orderBy ? (
+                    <ChevronUpIcon
+                      w={4}
+                      h={4}
+                      ml={1}
+                    />
+                  )
+                    : (
+                      <ChevronDownIcon
+                        w={4}
+                        h={4}
+                        ml={1}
+                      />
+                    )}
+                </Th>
+              ))}
             </Tr>
           </Thead>
           <Tbody>
@@ -66,8 +107,8 @@ const PostsTable = ({ posts }: PostsTableProps) => {
                   <StatusBadge status={post.status} />
                 </Td>
                 <Td
-                  isNumeric
                   display={{ base: 'none', md: 'table-cell' }}
+                  isNumeric
                 >
                   {post.createdAt.toDateString()}
                 </Td>

@@ -4,6 +4,7 @@ import PostAction from './PostAction';
 import dynamic from 'next/dynamic';
 import LoadingPostPage from './loading';
 import React from 'react';
+import { Status } from '@prisma/client';
 
 
 const PostsTable = dynamic(
@@ -14,14 +15,32 @@ const PostsTable = dynamic(
   }
 )
 
-const PostsView = async () => {
-  const posts = await prisma.post.findMany();
+interface PostStatus {
+  searchParams: {
+    status: Status
+  }
+}
+
+const PostsView = async ({ searchParams }: PostStatus) => {
+  const statuses = Object.values(Status)
+  const status = statuses.includes(searchParams.status) ? searchParams.status : undefined
+
+  const posts = await prisma.post.findMany({
+    where: {
+      status,
+    },
+    orderBy: {
+      createdAt: 'asc'
+    }
+  });
+
 
   return (
     <>
       <PostAction />
       <PostsTable
         posts={posts}
+        searchParams={searchParams}
       />
     </>
   )
