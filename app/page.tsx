@@ -1,8 +1,10 @@
 import prisma from "@/prisma/client";
 import { Metadata } from "next";
 import PostSummary from "./PostSummary";
-import React from "react";
 import PostChart from "./PostChart";
+import LatestPost from "./LatestPost";
+import React from "react";
+import { Flex, Grid } from "@chakra-ui/react";
 
 
 
@@ -27,16 +29,27 @@ export default async function Home() {
 
   return (
     <>
-      {/* <PostSummary
-        open={open}
-        inProgress={inProgress}
-        closed={closed}
-      /> */}
-      <PostChart
-        open={open}
-        inProgress={inProgress}
-        closed={closed}
-      />
+      <Grid
+        templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+        gap={{ base: 2, md: 5 }}
+      >
+        <Flex
+          flexDir={'column'}
+          gap={5}
+        >
+          <PostSummary
+            open={open}
+            inProgress={inProgress}
+            closed={closed}
+          />
+          <PostChart
+            open={open}
+            inProgress={inProgress}
+            closed={closed}
+          />
+        </Flex>
+        <LatestPost />
+      </Grid>
     </>
   );
 }

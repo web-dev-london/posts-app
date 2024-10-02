@@ -27,6 +27,7 @@ const PostSummary = ({ open, inProgress, closed }: PostSummaryProps) => {
     <>
       <Flex
         gap={5}
+        flexWrap={'wrap'}
       >
         {contents.map((content) => (
           <Card key={content.label}>

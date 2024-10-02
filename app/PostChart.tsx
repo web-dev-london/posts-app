@@ -1,4 +1,5 @@
 'use client'
+import { HStack } from '@chakra-ui/react';
 import React from 'react'
 // import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import {
@@ -29,29 +30,37 @@ const PostChart = ({ open, inProgress, closed }: PostChartProps) => {
 
   return (
     <>
-      <ResponsiveContainer width="100%" height={300}>
-        <ComposedChart
-          width={500}
-          height={400}
-          data={data}
+      <HStack
+        transform={'translateX(-35px)'}
+        flexGrow={1}
+      >
+        <ResponsiveContainer
+          // width="100%"
+          height={300}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="label" />
-          <YAxis />
-          <Tooltip />
-          <Tooltip content={<DefaultLegendContent />} />
-          <Area
-            dataKey="value"
-            fill="#8884d8"
-            stroke="#8884d8"
-            type="monotone"
-            connectNulls
-            dot={false}
-            activeDot={false}
-          />
-          <Legend content={<DefaultLegendContent />} />
-        </ComposedChart>
-      </ResponsiveContainer>
+          <ComposedChart
+            // width={500}
+            // height={400}
+            data={data}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="label" />
+            <YAxis />
+            <Tooltip />
+            <Tooltip content={<DefaultLegendContent />} />
+            <Area
+              dataKey="value"
+              fill="#8884d8"
+              stroke="#8884d8"
+              type="monotone"
+              connectNulls
+              dot={false}
+              activeDot={false}
+            />
+            <Legend content={<DefaultLegendContent />} />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </HStack>
     </>
   )
 }
