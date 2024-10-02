@@ -2,6 +2,7 @@ import prisma from "@/prisma/client";
 import { Metadata } from "next";
 import PostSummary from "./PostSummary";
 import React from "react";
+import PostChart from "./PostChart";
 
 
 
@@ -26,7 +27,12 @@ export default async function Home() {
 
   return (
     <>
-      <PostSummary
+      {/* <PostSummary
+        open={open}
+        inProgress={inProgress}
+        closed={closed}
+      /> */}
+      <PostChart
         open={open}
         inProgress={inProgress}
         closed={closed}
