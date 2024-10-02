@@ -1,18 +1,36 @@
-import Pagination from "@/components/Pagination";
+import prisma from "@/prisma/client";
 import { Metadata } from "next";
+import PostSummary from "./PostSummary";
 import React from "react";
-import LatestPost from "./LatestPost";
 
-interface Props {
-  searchParams: {
-    page: string;
-  };
-}
 
-export default function Home({ searchParams }: Props) {
+
+export default async function Home() {
+  const open = await prisma.post.count({
+    where: {
+      status: "OPEN"
+    }
+  })
+
+  const inProgress = await prisma.post.count({
+    where: {
+      status: "IN_PROGRESS"
+    }
+  })
+
+  const closed = await prisma.post.count({
+    where: {
+      status: "CLOSED"
+    }
+  })
+
   return (
     <>
-      <LatestPost />
+      <PostSummary
+        open={open}
+        inProgress={inProgress}
+        closed={closed}
+      />
     </>
   );
 }
