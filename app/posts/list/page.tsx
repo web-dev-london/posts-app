@@ -6,6 +6,7 @@ import LoadingPostPage from './loading';
 import React from 'react';
 import { Post, Status } from '@prisma/client';
 import { columns } from '@/helpers/links';
+import Pagination from '@/components/Pagination';
 
 
 const PostsTable = dynamic(
@@ -20,6 +21,7 @@ interface PostStatus {
   searchParams: {
     orderBy: keyof Post
     status: Status
+    page: string
   }
 }
 
@@ -28,15 +30,27 @@ const PostsView = async ({ searchParams }: PostStatus) => {
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined
+
   const orderBy = columns.map(column => column.value).includes(searchParams.orderBy)
     ? { [searchParams.orderBy]: 'asc' }
     : undefined
 
+  const where = {
+    status
+  }
+
+  const page = Number(searchParams.page) || 1;
+  const pageSize = 10;
+
   const posts = await prisma.post.findMany({
-    where: {
-      status,
-    },
+    where,
     orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  })
+
+  const totalNumberOfPosts = await prisma.post.count({
+    where
   })
 
 
@@ -46,6 +60,11 @@ const PostsView = async ({ searchParams }: PostStatus) => {
       <PostsTable
         posts={posts}
         searchParams={searchParams}
+      />
+      <Pagination
+        totalItems={totalNumberOfPosts}
+        pageSize={pageSize}
+        currentPage={page}
       />
     </>
   )
