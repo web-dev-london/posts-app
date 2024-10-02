@@ -2,14 +2,20 @@ import Pagination from "@/components/Pagination";
 import { Metadata } from "next";
 import React from "react";
 
-export default function Home() {
+interface Props {
+  searchParams: {
+    page: string;
+  };
+}
+
+export default function Home({ searchParams }: Props) {
   return (
     <>
       <h1 className="text-lg font-bold ">Home page</h1>
       <Pagination
         totalItems={100}
         pageSize={10}
-        currentPage={3}
+        currentPage={Number(searchParams.page) || 1}
       />
     </>
   );
