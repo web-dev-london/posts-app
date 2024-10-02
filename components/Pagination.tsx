@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { HiMiniChevronDoubleLeft, HiMiniChevronDoubleRight, HiMiniChevronLeft, HiMiniChevronRight } from "react-icons/hi2";
 
+
+
 interface PaginationProps {
   totalItems: number
   pageSize: number
@@ -11,19 +13,19 @@ interface PaginationProps {
 }
 
 const Pagination = ({ totalItems, pageSize, currentPage }: PaginationProps) => {
-  const { push } = useRouter();
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const totalPages = Math.ceil(totalItems / pageSize);
 
+
   if (totalPages <= 1) return null
 
   const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams.toString());
     params.set('page', page.toString());
-    push(`?${params.toString()}`);
-    // const query = params.toString() ? `?${params.toString()}` : '';
-    // push(`/posts/list${query}`);
+    const query = params.toString() ? `?${params.toString()}` : '';
+    router.push(`/posts/list${query}`);
   }
 
   return (

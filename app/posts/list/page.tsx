@@ -1,12 +1,13 @@
+import Pagination from '@/components/Pagination';
+import { columns } from '@/helpers/links';
 import prisma from '@/prisma/client';
+import { Status } from '@prisma/client';
 import { Metadata } from 'next';
-import PostAction from './PostAction';
 import dynamic from 'next/dynamic';
 import LoadingPostPage from './loading';
+import PostAction from './PostAction';
+import { PostQueryParams } from './PostsTable';
 import React from 'react';
-import { Post, Status } from '@prisma/client';
-import { columns } from '@/helpers/links';
-import Pagination from '@/components/Pagination';
 
 
 const PostsTable = dynamic(
@@ -18,11 +19,7 @@ const PostsTable = dynamic(
 )
 
 interface PostStatus {
-  searchParams: {
-    orderBy: keyof Post
-    status: Status
-    page: string
-  }
+  searchParams: PostQueryParams
 }
 
 const PostsView = async ({ searchParams }: PostStatus) => {

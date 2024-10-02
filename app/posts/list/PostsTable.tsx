@@ -17,12 +17,15 @@ import NextLink from 'next/link'
 import React from 'react'
 import { columns } from '@/helpers/links'
 
+export interface PostQueryParams {
+  status: Status
+  orderBy: keyof Post
+  page: string
+}
+
 interface PostsTableProps {
   posts: Post[];
-  searchParams: {
-    status: Status
-    orderBy?: keyof Post
-  }
+  searchParams: PostQueryParams
 }
 
 const PostsTable = ({ posts, searchParams }: PostsTableProps) => {
