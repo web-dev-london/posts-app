@@ -1,6 +1,7 @@
 import Pagination from "@/components/Pagination";
 import { Metadata } from "next";
 import React from "react";
+import LatestPost from "./LatestPost";
 
 interface Props {
   searchParams: {
@@ -11,12 +12,7 @@ interface Props {
 export default function Home({ searchParams }: Props) {
   return (
     <>
-      <h1 className="text-lg font-bold ">Home page</h1>
-      <Pagination
-        totalItems={100}
-        pageSize={10}
-        currentPage={Number(searchParams.page) || 1}
-      />
+      <LatestPost />
     </>
   );
 }
