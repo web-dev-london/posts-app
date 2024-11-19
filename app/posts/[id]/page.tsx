@@ -10,7 +10,7 @@ import EditPostButton from './EditPostButton';
 import dynamic from 'next/dynamic';
 import LoadingPostDetailPage from './loading';
 import DeletePostButton from './DeletePostButton';
-import React from 'react';
+import React, { cache } from 'react';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/app/auth/authOptions';
 import AssigneeSelect from './AssigneeSelect';
@@ -29,18 +29,22 @@ interface PostDetailPageProps {
   }
 }
 
+const fetchPost = cache((postId: number) => prisma.post.findUnique({
+  where: {
+    id: postId
+  }
+}));
+
 const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
   const session = await getServerSession(authOptions)
-  const postIdNumber = parseInt(id, 10)
+
+  const postIdNumber = parseInt(id)
 
   if (isNaN(postIdNumber)) {
     return notFound()
   }
-  const post = await prisma.post.findUnique({
-    where: {
-      id: parseInt(id)
-    }
-  })
+
+  const post = await fetchPost(postIdNumber)
 
   if (!post) {
     return notFound()
@@ -87,11 +91,7 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
 }
 
 export async function generateMetadata({ params: { id } }: PostDetailPageProps) {
-  const post = await prisma.post.findUnique({
-    where: {
-      id: parseInt(id)
-    }
-  })
+  const post = await fetchPost(parseInt(id))
   return {
     title: post?.title,
     description: `Details of post ${post?.id}`,
