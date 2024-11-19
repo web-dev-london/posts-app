@@ -11,7 +11,6 @@ import dynamic from 'next/dynamic';
 import LoadingPostDetailPage from './loading';
 import DeletePostButton from './DeletePostButton';
 import React from 'react';
-import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import authOptions from '@/app/auth/authOptions';
 import AssigneeSelect from './AssigneeSelect';
@@ -87,9 +86,16 @@ const PostDetailPage = async ({ params: { id } }: PostDetailPageProps) => {
   )
 }
 
-export const metadata: Metadata = {
-  title: 'Posts App - Post Details',
-  description: 'View Post Details',
-};
+export async function generateMetadata({ params: { id } }: PostDetailPageProps) {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: parseInt(id)
+    }
+  })
+  return {
+    title: post?.title,
+    description: `Details of post ${post?.id}`,
+  }
+}
 
 export default PostDetailPage
