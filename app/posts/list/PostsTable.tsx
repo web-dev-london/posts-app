@@ -52,7 +52,7 @@ const PostsTable = ({ posts, searchParams }: PostsTableProps) => {
                     href={{
                       query: {
                         ...searchParams,
-                        orderBy: column.value
+                        orderBy: column.value.toLowerCase()
                       }
                     }}
                   >
