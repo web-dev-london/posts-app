@@ -75,7 +75,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
   await prisma.post.delete({
     where: {
-      id: parseInt(params.id)
+      id: post.id
     }
   })
 

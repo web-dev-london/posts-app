@@ -21,9 +21,10 @@ const DeletePostButton = ({ id }: { id: number }) => {
       push('/posts/list')
       refresh()
     } catch (error) {
-      if (error instanceof Error) {
-        setIsDeleting(false)
-        setIsError(true)
+      setIsDeleting(false)
+      setIsError(true)
+      if (!(error instanceof Error)) {
+        throw error
       }
     }
   };

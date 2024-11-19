@@ -1,7 +1,7 @@
 'use client'
-import ErrorMessage from '@/components/ErrorMessage'
+
 import { postSchema } from '@/schema/schemaView'
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, FormControl, FormLabel, Input, Spinner, Textarea } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Spinner, Textarea } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Post } from '@prisma/client'
 import axios from 'axios'
@@ -57,7 +57,7 @@ const PostForm = ({ post }: { post?: Post }) => {
           onSubmit={handleFormSubmit}
         >
           <FormControl
-            isInvalid={!!errors.title || !!errors.description}>
+            isInvalid={!!errors.title}>
 
             <FormLabel
               m={0}
@@ -72,9 +72,15 @@ const PostForm = ({ post }: { post?: Post }) => {
               placeholder='Title'
               {...register('title')}
             />
-            <ErrorMessage>
+
+            <FormErrorMessage>
               {errors.title?.message}
-            </ErrorMessage>
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl
+            isInvalid={!!errors.description}
+          >
             <FormLabel
               mt={5}
             >Description
@@ -87,25 +93,26 @@ const PostForm = ({ post }: { post?: Post }) => {
               {...register('description')}
               mb={2}
             />
-            <ErrorMessage>
+            <FormErrorMessage>
               {errors.description?.message}
-            </ErrorMessage>
-            <Button
-              type="submit"
-              colorScheme='yellow'
-              position={'absolute'}
-              right={0}
-              bottom={'-15%'}
-              transform={'translate(0, 15%)'}
-              isDisabled={isSubmitting}
-            >
-              {post ? 'Update' : 'Create'}{' '}
-              {isSubmitting && <Spinner
-                size={'sm'}
-                ml={3}
-              />}
-            </Button>
+            </FormErrorMessage>
           </FormControl>
+
+          <Button
+            type="submit"
+            colorScheme='yellow'
+            position={'absolute'}
+            right={0}
+            bottom={'-15%'}
+            transform={'translate(0, 15%)'}
+            isDisabled={isSubmitting}
+          >
+            {post ? 'Update' : 'Create'}{' '}
+            {isSubmitting && <Spinner
+              size={'sm'}
+              ml={3}
+            />}
+          </Button>
         </form>
       </Box>
     </>
